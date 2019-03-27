@@ -14,8 +14,7 @@ int BT::ParallelNode::DrawType()
 
 BT::ReturnStatus BT::ParallelNode::Tick()
 {
-    success_children_num_ = 0;
-    failure_children_num_ = 0;
+    initNum();
     N_of_children_ = children_nodes_.size();
     for(unsigned int i=0;i < N_of_children_; i++)
     {
@@ -47,8 +46,7 @@ BT::ReturnStatus BT::ParallelNode::Tick()
             children_nodes_[i]->set_status(BT::IDLE);
             if(++success_children_num_ == threshold_M_)
             {
-                success_children_num_ = 0;
-                failure_children_num_ = 0;
+                initNum();
                 HaltChildren(0);
                 set_status(child_i_status_);
                 return child_i_status_;
@@ -60,8 +58,7 @@ BT::ReturnStatus BT::ParallelNode::Tick()
             children_nodes_[i]->set_status(BT::IDLE);
             if(++failure_children_num_ == threshold_M_)
             {
-                success_children_num_ = 0;
-                failure_children_num_ = 0;
+                initNum();
                 HaltChildren(0);
                 set_status(child_i_status_);
                 return child_i_status_;
@@ -76,8 +73,7 @@ BT::ReturnStatus BT::ParallelNode::Tick()
 
 void BT::ParallelNode::Halt()
 {
-    success_children_num_ = 0;
-    failure_children_num_ = 0;
+    initNum();
     BT::ControlNode::Halt();
 }
 
@@ -89,4 +85,10 @@ unsigned int BT::ParallelNode::getThreSholdM()
 void BT::ParallelNode::setThresholdM(unsigned int threshold_M)
 {
     threshold_M_ = threshold_M;
+}
+
+void BT::ParallelNode::initNum()
+{
+    success_children_num_ = 0;
+    failure_children_num_ = 0;
 }
