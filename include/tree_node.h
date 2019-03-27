@@ -112,6 +112,7 @@ namespace BT
         NodeType getNodeType();
         ReturnStatus get_status();
         void set_status(ReturnStatus new_status);
-
-    } 
+    };
 }
+
+#endif
